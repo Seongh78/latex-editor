@@ -1,23 +1,32 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
+import MathJax from 'react-mathjax';
+// import TextAreaLine from './components/TextAreaLine';
+
+const texOrigin = `
+f(x) = \\int_{-\\infty}^\\infty
+    \\hat f(\\xi)\\,e^{2 \\pi i \\xi x}
+    \\,d\\xi
+    $$ f(x) =
+`;
 
 function App() {
+  const [tex, setTex] = useState(texOrigin);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <textarea
+        rows={15}
+        value={tex}
+        onChange={(e) => setTex(e.target.value)}
+      ></textarea>
+      <MathJax.Provider>
+        <div>
+          This is an inline math formula:{' '}
+          <MathJax.Node inline formula={'a = b'} />
+          And a block one:
+          <MathJax.Node formula={tex} />
+        </div>
+      </MathJax.Provider>
     </div>
   );
 }
